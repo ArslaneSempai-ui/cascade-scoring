@@ -2,7 +2,7 @@
 
 **Provenance**: no real bank customer is public: written and generated, and it says so. Dossiers written by this repository (archetypes of
 risk and their benign look-alikes) plus seeded, structure-preserving variants, measured
-APART and never merged. Commit `28982aa`, 2026-09-05. Sealed as `releve-public.json`;
+APART and never merged. Commit `4469413`, 2026-09-05. Sealed as `releve-public.json`;
 every rate below carries its n and its 95 % Wilson interval, and the FULL threshold grid
 (51 steps) lives in the JSON — this page shows 8 declared columns of it. The
 record also photographs the declared risk TABLES it was measured under (`tables`) — the
@@ -21,7 +21,7 @@ afar, like a laundering shopfront. Natures: shell-layers x7, pep-relative x7, ca
 | factor | 0.50 | 0.60 | 0.70 | 0.80 | 0.85 | 0.90 | 0.95 | 1.00 |
 |---|---|---|---|---|---|---|---|---|
 | `geography` | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] |
-| `activity` | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] |
+| `activity` | 38% [25-53] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] |
 | `product` | 93% [81-98] | 93% [81-98] | 43% [29-58] | 17% [8-31] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] |
 | `exposure` | 26% [15-41] | 17% [8-31] | 7% [2-19] | 7% [2-19] | 0% [0-8] | 0% [0-8] | 0% [0-8] | 0% [0-8] |
 | `structure` | 33% [21-48] | 33% [21-48] | 12% [5-25] | 7% [2-19] | 7% [2-19] | 2% [0-12] | 0% [0-8] | 0% [0-8] |
@@ -49,7 +49,7 @@ Seeded, declared, never merged with the written set.
 | factor | 0.50 | 0.60 | 0.70 | 0.80 | 0.85 | 0.90 | 0.95 | 1.00 |
 |---|---|---|---|---|---|---|---|---|
 | `geography` | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] |
-| `activity` | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] |
+| `activity` | 38% [30-47] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] |
 | `product` | 79% [71-86] | 55% [46-63] | 29% [22-38] | 9% [5-15] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] |
 | `exposure` | 26% [19-34] | 17% [11-24] | 7% [4-13] | 7% [4-13] | 0% [0-3] | 0% [0-3] | 0% [0-3] | 0% [0-3] |
 | `structure` | 33% [26-42] | 31% [24-39] | 15% [10-22] | 8% [4-14] | 7% [4-13] | 4% [2-9] | 0% [0-3] | 0% [0-3] |

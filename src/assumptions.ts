@@ -80,9 +80,26 @@ export const BOUNDS: Record<keyof Assumptions, [number, number]> = {
  */
 export const TABLES: Tables = {
   paysRisque: { "KY": 0.7, "PA": 0.6, "AE": 0.5, "TR": 0.4, "MC": 0.4, "VG": 0.7 },
+  /* Arbitrage du chef, 8/09 (lot A-L4) : la table ne partageait AUCUN code avec les 84
+     dossiers écrits (vocabulaire L2 ∩ L3 = ∅), donc `activity` était aveugle sur la mesure
+     publique : rappel 0 partout, fausses alertes 0 partout, une ligne morte qui ne disait
+     rien de l'outil. Une table d'activités déclarée doit porter les codes qu'un portefeuille
+     ordinaire porte : holdings et sociétés de négoce (les structures des archétypes), le
+     commerce à espèces DES DEUX CÔTÉS (restaurant, station de lavage, supérette, mais aussi
+     boulangerie, épicerie, café : les sosies bénins pèsent AUSSI, et c'est ce que la mesure
+     doit montrer), le bâtiment, le gros, la logistique, le conseil, le numérique à distance,
+     l'export. Les codes de la table de départ restent. Retraités, étudiants, salariés,
+     ateliers : absents, donc 0. `geography` reste aveugle sur les dossiers écrits, et c'est
+     VOULU : tous résident dans l'Union, aucune liste de pays ne les touche ; le relevé le dit. */
   activiteRisque: { "casino": 0.8, "crypto-exchange": 0.8, "money-services": 0.7,
                     "art-dealer": 0.6, "real-estate": 0.5, "import-export": 0.4,
-                    "defense": 0.6, "precious-metals": 0.6 },
+                    "defense": 0.6, "precious-metals": 0.6,
+                    "holding": 0.5, "trading-co": 0.5, "construction": 0.4, "wholesale": 0.35,
+                    "logistics": 0.3, "consultant": 0.25,
+                    "restaurant": 0.4, "car-wash": 0.5, "mini-market": 0.4,
+                    "bakery": 0.3, "grocery": 0.3, "cafe": 0.3,
+                    "web-services": 0.3, "e-commerce": 0.3,
+                    "wine-export": 0.3, "fruit-export": 0.3, "textile-export": 0.3 },
   produitRisque: { cash: 0.5, wire: 0.2, card: 0.1, correspondent: 0.7, private: 0.5,
                    crypto: 0.7, safe: 0.4, trade: 0.3 },
   exposition: { pep: 0.8, pepRelative: 0.5, adverseMedia: 0.6 },

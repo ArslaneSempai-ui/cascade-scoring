@@ -1,7 +1,7 @@
 {
  "version": 1,
  "date": "2026-09-05",
- "commit": "28982aa",
+ "commit": "4469413",
  "paliers": {
   "presents": [
    "geography",
@@ -854,11 +854,11 @@
    "activity": {
     "0.50": {
      "rappel": {
-      "succes": 0,
+      "succes": 16,
       "n": 42,
-      "taux": 0,
-      "bas": 0,
-      "haut": 0.08380161250916197
+      "taux": 0.38095238095238093,
+      "bas": 0.24999520898785943,
+      "haut": 0.5318623178000363
      },
      "fauxPositifs": {
       "succes": 0,
@@ -6587,11 +6587,11 @@
    "activity": {
     "0.50": {
      "rappel": {
-      "succes": 0,
+      "succes": 48,
       "n": 126,
-      "taux": 0,
-      "bas": 0,
-      "haut": 0.029586819632536877
+      "taux": 0.38095238095238093,
+      "bas": 0.3008696170573195,
+      "haut": 0.4680796257123322
      },
      "fauxPositifs": {
       "succes": 0,
@@ -11511,7 +11511,24 @@
    "real-estate": 0.5,
    "import-export": 0.4,
    "defense": 0.6,
-   "precious-metals": 0.6
+   "precious-metals": 0.6,
+   "holding": 0.5,
+   "trading-co": 0.5,
+   "construction": 0.4,
+   "wholesale": 0.35,
+   "logistics": 0.3,
+   "consultant": 0.25,
+   "restaurant": 0.4,
+   "car-wash": 0.5,
+   "mini-market": 0.4,
+   "bakery": 0.3,
+   "grocery": 0.3,
+   "cafe": 0.3,
+   "web-services": 0.3,
+   "e-commerce": 0.3,
+   "wine-export": 0.3,
+   "fruit-export": 0.3,
+   "textile-export": 0.3
   },
   "produitRisque": {
    "cash": 0.5,
@@ -11545,5 +11562,5 @@
    "poidsDistance": 0.3
   }
  },
- "empreinte": "f45373df154cc484"
+ "empreinte": "f51ff169dbc4fd15"
 }
