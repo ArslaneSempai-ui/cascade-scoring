@@ -1,0 +1,80 @@
+/**
+ * LA COUTURE DE L'OUTIL AMÉTHYSTE : un FACTEUR de risque note un Dossier dans [0, 1].
+ *
+ * Sept facteurs, du plus bête (le pays contre une liste déclarée) au plus cher (l'écart du
+ * comportement au profil déclaré), chacun dans son fichier sous `src/facteurs/` (lot L1),
+ * enregistrés par `src/facteurs/index.ts` (`registre()`). La mesure (L4) et la mesure client
+ * (L3) balaient chaque facteur sur les 51 seuils de SEUILS et lisent rappel et fausses
+ * alertes par cellule. Un facteur ne lit JAMAIS une constante à lui : les listes, poids et
+ * échelles arrivent par `Tables` (src/assumptions.ts, lot L3), photographiées dans le relevé
+ * scellé, remplaçables par celles du client.
+ *
+ * Déterministe, sans réseau, sans état : le même Dossier et les mêmes Tables rendent le
+ * même score, sur toute machine.
+ */
+import type { Dossier } from "./dossier.ts";
+
+/** dans [0, 1] ; 1 = le dossier le plus risqué que le facteur sache voir */
+export type Score = number;
+
+/** Les HYPOTHÈSES déclarées que les facteurs lisent (valeurs dans assumptions.ts, lot L3). */
+export interface Tables {
+  /** pays → poids dans [0, 1] ; un pays absent vaut 0 ; liste courte, déclarée, jamais une liste officielle recopiée */
+  paysRisque: Readonly<Record<string, number>>;
+  /** code d'activité → poids dans [0, 1] ; un code absent vaut 0 */
+  activiteRisque: Readonly<Record<string, number>>;
+  /** produit → poids dans [0, 1] ; le facteur combine les produits détenus */
+  produitRisque: Readonly<Record<string, number>>;
+  /** exposition → poids : pep, pep-relative, adverse-media */
+  exposition: Readonly<{ pep: number; pepRelative: number; adverseMedia: number }>;
+  /** structure : couches à partir desquelles l'opacité commence, et le poids de chaque signal */
+  structure: Readonly<{ couchesOpaques: number; poidsCouche: number; poidsBeneficiaireInconnu: number; poidsJuridictionOpaque: number }>;
+  /** comportement : échelles de l'écrasement 1 - exp(-x / echelle) pour l'écart de chiffre d'affaires, et poids des parts */
+  comportement: Readonly<{ echelleEcartTurnover: number; poidsEspeces: number; poidsTransfrontiere: number }>;
+  /** ancienneté : en dessous de jours, un client est « neuf » ; dormance qui compte, en jours ; poids du canal à distance */
+  anciennete: Readonly<{ joursNeuf: number; joursDormance: number; poidsDistance: number }>;
+}
+
+export interface Facteur {
+  readonly id: PalierId;
+  /** une phrase pour le rapport : ce que le facteur regarde, et ce qu'il ne voit pas */
+  readonly description: string;
+  /** 1 (le plus bête) → 7 (le plus cher) */
+  readonly rang: number;
+  /** la table qu'il lit, nommée : `paysRisque`, `activiteRisque`, … ; une seule, ou plusieurs, jamais aucune */
+  readonly tablesLues: readonly (keyof Tables)[];
+  score(d: Dossier, tables: Tables): Score;
+}
+
+export const PALIERS = ["geography", "activity", "product", "exposure", "structure", "behaviour", "tenure"] as const;
+export type PalierId = (typeof PALIERS)[number];
+
+/** 0,50 → 1,00 par pas de 0,01 : 51 seuils, arrondis au centième, les mêmes que les trois autres outils */
+export const SEUILS: readonly number[] = Array.from({ length: 51 }, (_, i) => Math.round((0.5 + i * 0.01) * 100) / 100);
+
+/** Un score hors [0, 1] est une erreur nommée, jamais un arrondi silencieux. */
+export function exigerScore(s: number, id: string, d: Dossier): Score {
+  if (typeof s !== "number" || Number.isNaN(s) || s < 0 || s > 1) {
+    throw new Error(`factor ${id} scored ${s} on dossier ${d.id}: a score lives in [0, 1]`);
+  }
+  return s;
+}
+
+/** Un brut positif écrasé vers [0, 1] : 1 - exp(-x / echelle) ; l'échelle est une hypothèse déclarée, jamais tapée ici. */
+export function ecraser(x: number, echelle: number): Score {
+  if (!(echelle > 0)) throw new Error(`a scale must be > 0, got ${echelle}`);
+  if (!(x >= 0)) throw new Error(`a raw value must be >= 0, got ${x}`);
+  return 1 - Math.exp(-x / echelle);
+}
+
+/** Le maximum borné d'une liste de poids : plusieurs signaux ne dépassent jamais 1. */
+export function combiner(poids: readonly number[]): Score {
+  let s = 0;
+  for (const p of poids) {
+    if (!(p >= 0 && p <= 1)) throw new Error(`a weight lives in [0, 1], got ${p}`);
+    s = 1 - (1 - s) * (1 - p);      // l'union de signaux indépendants : monotone, bornée, sans surprise
+  }
+  return s;
+}
+
+export type Registre = ReadonlyMap<PalierId, Facteur>;
