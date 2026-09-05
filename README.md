@@ -26,9 +26,9 @@ It is the third tool of the Cascade suite, after [cascade-routing](https://githu
 |---|---|
 | `npm ci --ignore-scripts` | install exactly the versions the lockfile pins, and run no install script from any dependency — the only command that needs the network: this tool downloads nothing else, ever |
 | `npm run test` | types, the README blocks, the licence inventory, and the suite — start here; it runs with the network cut |
-| `npm run measure [-- --yes-overwrite]` | the public measure: every scenario at every threshold on cases we wrote (benign look-alikes included) plus declared generated variants, sealed into `releve-public.json` and readable in `RELEVE-PUBLIC.md` — no real transaction is public, and the record says so; it refuses to overwrite a sealed one without the flag |
-| `npm run measure:yours -- --alerts=<csv> --transactions=<csv> [--volume=N]` | your own dispositioned alerts, rebuilt into thirty-day cases from your transactions: recall on confirmed suspicious cases and false-alert rate on benign ones per scenario and threshold, with n and interval; a sealed record and a report beside your file, never a value of yours |
-| `npm run optimise -- --from=<record> --recall=<min>` | the frontier: fewest alerts with the recall lower bound held, or `--alert-budget=<N>` for the highest bounded recall under a monthly alert budget |
+| `npm run measure [-- --yes-overwrite]` | the public measure: every risk factor at every threshold on dossiers we wrote (benign look-alikes included) plus declared generated variants, sealed into `releve-public.json` and readable in `RELEVE-PUBLIC.md` — no real customer is public, and the record says so; it refuses to overwrite a sealed one without the flag |
+| `npm run measure:yours -- --customers=<csv> --reviews=<csv> [--volume=N]` | your own periodic reviews, rebuilt into dossiers from your customer attributes: recall on escalated customers and false-alert rate on maintained ones per risk factor and threshold, with n and interval; a sealed record and a report beside your file, never a value of yours |
+| `npm run optimise -- --from=<record> --recall=<min>` | the frontier: fewest alerts with the recall lower bound held, or `--review-budget=<N>` for the highest bounded recall under a yearly review budget |
 | `npm run sceller -- <record.json>` | seal a record: the fingerprint that makes a silently edited measurement fail loudly — the same fingerprint as cascade-routing |
 | `npm run verify -- <report>` | check that a report was issued by the holder of the suite's public key, `cle-publique.pem`, without asking us |
 | `npm run licences` | regenerate `LICENCES.md`, the licence of every shipped package — `--check` fails the suite when the table drifts |
@@ -60,7 +60,7 @@ reports are verified against the same public key, [`cle-publique.pem`](cle-publi
 with `npm run verify`.
 
 <!-- figures:tests -->
-**110 tests** across 11 files, counted by running the suite rather than typed here.
+**33 tests** across 4 files, counted by running the suite rather than typed here.
 <!-- /figures:tests -->
 
 ## Licence
