@@ -85,7 +85,7 @@ export function rendreRapport(m: MesureRevues): string {
     l.push(``);
   }
   if (m.absents.length) {
-    l.push(`Contract factors absent from the registry, said rather than guessed: `
+    l.push(`Contract factors absent from the registry, named here, not guessed: `
       + `${m.absents.map((a) => cellule(a)).join(", ")}. The frontier above covers what was measured.`);
     l.push(``);
   }
