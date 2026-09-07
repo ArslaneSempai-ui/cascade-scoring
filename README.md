@@ -25,9 +25,9 @@ your machine.
 |---|---|
 | `npm ci --ignore-scripts` | install exactly the versions the lockfile pins, and run no install script from any dependency; the only command that needs the network: this tool downloads nothing else, ever |
 | `npm run test` | types, the README blocks, the licence inventory, and the suite. Start here; it runs with the network cut |
-| `npm run measure [-- --yes-overwrite]` | the public measure: every risk factor at every threshold on dossiers we wrote (benign look-alikes included) plus declared generated variants, sealed into `releve-public.json` and readable in `RELEVE-PUBLIC.md`: no real customer is public, and the record says so; it refuses to overwrite a sealed one without the flag |
+| `npm run measure [-- --yes-overwrite]` | the public measure: every risk factor at every threshold on dossiers we wrote (retained files included) plus declared generated variants, sealed into `releve-public.json` and readable in `RELEVE-PUBLIC.md`: no real customer is public, and the record says so; it refuses to overwrite a sealed one without the flag |
 | `npm run measure:yours -- --customers=<csv> --reviews=<csv> [--volume=N]` | your own periodic reviews, rebuilt into dossiers from your customer attributes: recall on escalated customers and false-alert rate on maintained ones per risk factor and threshold, with n and interval; a sealed record and a report beside your file, never a value of yours |
-| `npm run optimise -- --from=<record> --recall=<min>` | the frontier: fewest alerts with the recall lower bound held, or `--review-budget=<N>` for the highest bounded recall under a yearly review budget |
+| `npm run optimise -- --from=<record> --recall=<min>` | the best trade-off: fewest alerts with the recall lower bound held, or `--review-budget=<N>` for the highest bounded recall under a yearly review budget |
 | `npm run sceller -- <record.json>` | seal a record: the fingerprint that makes a silently edited measurement fail loudly; the same fingerprint as cascade-routing |
 | `npm run verify -- <report>` | check that a report was issued by the holder of the suite's public key, `cle-publique.pem`, without asking us |
 | `npm run licences` | regenerate `LICENCES.md`, the licence of every shipped package; `--check` fails the suite when the table drifts |
@@ -40,7 +40,7 @@ Node 24 or newer, on **macOS or Linux**. Windows has not been tested and is not 
 ## What leaves your machine
 
 Nothing. This tool has no list to download and no model to fetch: every command runs with
-the network cut, and a test walks the sources so that no module ever grows a network call
+the network cut, and a test reads every source so that no module ever grows a network call
 (`src/frontiere.test.ts`).
 
 ## What is measured, assumed, synthetic
@@ -50,7 +50,7 @@ an amount or a count into a score, the cash reporting threshold, analyst minutes
 and analyst cost are **assumed** and declared in `src/assumptions.ts`. The public record is
 **written and generated**: cases we authored and seeded variants, measured apart, never
 merged into anything measured on your data. Below five confirmed suspicious cases, no
-recall is quoted: the report says so.
+recall is quoted, and the report states why.
 
 ## Seals and signatures
 
