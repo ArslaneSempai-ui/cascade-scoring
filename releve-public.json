@@ -1,7 +1,7 @@
 {
  "version": 1,
- "date": "2026-09-05",
- "commit": "4469413",
+ "date": "2026-09-07",
+ "commit": "a7dc0ee",
  "paliers": {
   "presents": [
    "geography",
@@ -15,7 +15,7 @@
   "absents": []
  },
  "authored": {
-  "provenance": "written by hand in this repository: archetypes of risk and their benign look-alikes — no real bank customer is public: written and generated, and it says so",
+  "provenance": "written by hand in this repository: archetypes of risk and their benign look-alikes; no real bank customer is public: written and generated, and it says so",
   "nEscalated": 42,
   "nMaintained": 42,
   "natures": {
@@ -5762,7 +5762,7 @@
   }
  },
  "synthetic": {
-  "provenance": "seeded variants of the authored dossiers (seed 20260908, 3 per dossier), structure preserved — no real bank customer is public: written and generated, and it says so",
+  "provenance": "seeded variants of the authored dossiers (seed 20260908, 3 per dossier), structure preserved; no real bank customer is public: written and generated, and it says so",
   "nEscalated": 126,
   "nMaintained": 126,
   "tables": {
@@ -11562,5 +11562,5 @@
    "poidsDistance": 0.3
   }
  },
- "empreinte": "f51ff169dbc4fd15"
+ "empreinte": "3cee43edfa7c0064"
 }
