@@ -81,7 +81,7 @@ export function lireReleve(chemin: string): MesureRevues {
       + `  the frontier with the authority of a measurement. Re-run measure:yours.`);
   }
   if (!scelleIntact(brut as unknown as Record<string, unknown>)) {
-    throw new Error(`${basename(chemin)} does not match its own fingerprint: it carries `
+    throw new Error(`${basename(chemin)} does not match its own content hash: it carries `
       + `${brut.empreinte}, its content computes to ${empreinteDuReleve(brut)}.\n`
       + `  The file changed after it was sealed. Nothing was optimised.`);
   }
