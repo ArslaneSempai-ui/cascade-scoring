@@ -22,7 +22,7 @@ export const SEUILS_MONTRES: readonly number[] = [0.50, 0.60, 0.70, 0.75, 0.80, 
 /** La cellule du rappel suit le CONTRAT : sous cinq escalades, la phrase ; dès cinq, le
  *  taux AVEC son intervalle même sous ENOUGH, et la note sous chaque table concernée. */
 function celluleRappel(c: Cellule, escalades: number): { taux: string; intervalle: string } {
-  if (escalades < MINIMUM_ESCALADES) return { taux: `— ${TROP_PEU_D_ESCALADES}`, intervalle: `n=${escalades}` };
+  if (escalades < MINIMUM_ESCALADES) return { taux: `n/a: ${TROP_PEU_D_ESCALADES}`, intervalle: `n=${escalades}` };
   const r = rate(c.rappel.successes, c.rappel.n);
   if (r.reportable) return cellulesDeTaux(r);
   return {
@@ -42,7 +42,7 @@ export function rendreRapport(m: MesureRevues): string {
   l.push(``);
   l.push(`- confirmed escalations: ${m.source.escalated}`);
   l.push(`- maintained (closed without action): ${m.source.maintained}`);
-  l.push(`- dossiers without a known nationality: ${m.source.sansNationalite} — the geography factor`);
+  l.push(`- dossiers without a known nationality: ${m.source.sansNationalite}. The geography factor`);
   l.push(`  reads residence alone there; the count travels with the rates rather than dissolving`);
   l.push(`  into them.`);
   if (m.source.periode) {
@@ -51,7 +51,7 @@ export function rendreRapport(m: MesureRevues): string {
   }
   l.push(m.volume
     ? `- customers in the portfolio: ${m.volume.n} (declared with --volume)`
-    : `- customers in the portfolio: not supplied — the reviews-per-thousand column does not appear; it is never estimated in silence.`);
+    : `- customers in the portfolio: not supplied. The reviews-per-thousand column does not appear; it is never estimated in silence.`);
   l.push(``);
   l.push(`One limit, stated up front: this history contains only the reviews your programme`);
   l.push(`concluded. A risk your committee never reviewed is invisible to this file. Robustness`);
@@ -60,12 +60,12 @@ export function rendreRapport(m: MesureRevues): string {
   l.push(``);
 
   l.push(`## The frontier, factor by factor`, ``);
-  l.push(`Thresholds shown: ${SEUILS_MONTRES.map((s) => s.toFixed(2)).join(", ")} — the full grid of`);
+  l.push(`Thresholds shown: ${SEUILS_MONTRES.map((s) => s.toFixed(2)).join(", ")}; the full grid of`);
   l.push(`${SEUILS.length} lives in the sealed record beside this file.`);
   l.push(``);
   const paliers = Object.entries(m.paliers).sort(([, a], [, b]) => a!.rang - b!.rang);
   for (const [id, p] of paliers) {
-    l.push(`### ${cellule(id)} — ${p!.description}`, ``);
+    l.push(`### ${cellule(id)}: ${p!.description}`, ``);
     const entetes = ["threshold", "reviews raised", `recall (n=${m.source.escalated})`, "interval",
       `false alerts (n=${m.source.maintained})`, "interval"];
     if (m.volume) entetes.push("per 1000 customers");
@@ -97,14 +97,14 @@ export function rendreRapport(m: MesureRevues): string {
   } else {
     const c = meilleureSousRappel(cellulesDe(m), ASSUMPTIONS.recallFloor);
     l.push(`The rule of the tool: recall lower bound at or above ${ligneDHypothese("recallFloor")},`);
-    l.push(`then the fewest false alerts — yours to set with \`optimise -- --recall=<min>\`.`);
+    l.push(`then the fewest false alerts; yours to set with \`optimise -- --recall=<min>\`.`);
     l.push(``);
     if (!c) {
       l.push(`None holds the floor: no cell keeps a recall lower bound of ${ASSUMPTIONS.recallFloor} on this`);
       l.push(`sample (${m.source.escalated} confirmed escalations). Lower the floor knowingly, or measure`);
-      l.push(`a longer window of history — the bound tightens with n.`);
+      l.push(`a longer window of history: the bound tightens with n.`);
     } else {
-      l.push(`Fewest false alerts with the bound held: ${cellule(c.palier)} at threshold ${c.seuil.toFixed(2)} — `
+      l.push(`Fewest false alerts with the bound held: ${cellule(c.palier)} at threshold ${c.seuil.toFixed(2)}; `
         + `${c.faussesAlertes.successes} false alert(s) of ${c.faussesAlertes.n} maintained review(s), `
         + `${c.tirees} of ${m.source.reviews} historical reviews raised, recall `
         + `${(c.rappel.rate * 100).toFixed(1)} % [${(c.rappel.low * 100).toFixed(0)}–${(c.rappel.high * 100).toFixed(0)}], n=${c.rappel.n}.`);
@@ -112,7 +112,7 @@ export function rendreRapport(m: MesureRevues): string {
       const h = heuresDAnalyste(economisees);
       l.push(``);
       l.push(`Against your current programme's history: ${economisees} review(s) fewer over the file's`);
-      l.push(`period — ${h.heures.toFixed(1)} analyst hour(s), ${symboleDe(UNITS.analystAnnualCost)}${h.usd.toFixed(0)}, computed from assumptions shown here:`);
+      l.push(`period, ${h.heures.toFixed(1)} analyst hour(s), ${symboleDe(UNITS.analystAnnualCost)}${h.usd.toFixed(0)}, computed from assumptions shown here:`);
       l.push(`- ${ligneDHypothese("minutesPerReview")}`);
       l.push(`- ${ligneDHypothese("analystAnnualCost")}, over ${ASSUMPTIONS.workingDaysPerYear} days/year × ${ASSUMPTIONS.productiveHoursPerDay} h/day`);
       const suivant = m.paliers[c.palier]!.cellules.find((x) => x.seuil === Math.round((c.seuil + 0.01) * 100) / 100);
@@ -120,7 +120,7 @@ export function rendreRapport(m: MesureRevues): string {
         const dr = celluleRappel(suivant, m.source.escalated);
         l.push(``);
         l.push(`The next step (threshold ${suivant.seuil.toFixed(2)}) would drop ${c.tirees - suivant.tirees} more review(s)`);
-        l.push(`and put the recall at ${dr.taux} ${dr.intervalle} — what tightening costs, before you pay it.`);
+        l.push(`and put the recall at ${dr.taux} ${dr.intervalle}: what tightening costs, before you pay it.`);
       }
     }
   }
@@ -128,8 +128,8 @@ export function rendreRapport(m: MesureRevues): string {
 
   l.push(`## Synthetic robustness, kept apart`, ``);
   l.push(`Not measured in this run: no real customer file is public, so the public record of`);
-  l.push(`this tool is ENTIRELY fabricated — authored dossiers of risk with their benign`);
-  l.push(`look-alikes, plus seeded variants — and it says so on every figure. It never merges`);
+  l.push(`this tool is ENTIRELY fabricated (authored dossiers of risk with their benign`);
+  l.push(`look-alikes, plus seeded variants) and it says so on every figure. It never merges`);
   l.push(`with the rates above. Provenance keeps the words apart: those figures are`);
   l.push(`\`synthetic\` or \`authored\`, never \`measured\`.`);
   l.push(``);
@@ -138,17 +138,17 @@ export function rendreRapport(m: MesureRevues): string {
   l.push(`- measured: every rate in section 2, on your files, n and interval attached.`);
   l.push(`- assumed: ${(Object.keys(STATUSES) as (keyof typeof STATUSES)[])
     .map((k) => ligneDHypothese(k)).join("; ")}.`);
-  l.push(`- the risk TABLES are the loudest assumption of this tool — short, declared, never`);
-  l.push(`  an official list — and the sealed record snapshots the exact tables this run was`);
+  l.push(`- the risk TABLES are the loudest assumption of this tool (short, declared, never`);
+  l.push(`  an official list) and the sealed record snapshots the exact tables this run was`);
   l.push(`  measured under (${(Object.keys(TABLES_STATUS) as string[]).join(", ")}: all assumed);`);
-  l.push(`  replace them with yours: \`--tables=<json>\` — and note that the record then seals`);
+  l.push(`  replace them with yours: \`--tables=<json>\`, and note that the record then seals`);
   l.push(`  YOUR tables (they decide every score): a record measured under your tables carries`);
   l.push(`  them, so share it as you would share your risk policy.`);
-  l.push(`- seal: ${m.empreinte ?? "(sealed after rendering — see the .json beside this file)"} · `
+  l.push(`- seal: ${m.empreinte ?? "(sealed after rendering; see the .json beside this file)"} · `
     + `measured ${m.measuredAt.slice(0, 10)}`
     + (m.code ? ` · code at commit ${m.code.commit}` : ""));
   l.push(``);
-  l.push(`No value from your files — no customer_id, no country, no activity code, no amount —`);
+  l.push(`No value from your files (no customer_id, no country, no activity code, no amount)`);
   l.push(`appears in this report or in the sealed record; verdicts are keyed by your review_id`);
   l.push(`and carry scores only. The review ids and the file names are yours and DO survive:`);
   l.push(`choose them opaque.`);

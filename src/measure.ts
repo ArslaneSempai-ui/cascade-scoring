@@ -110,7 +110,7 @@ export function validerMoitie(dossiers: readonly DossierEtiquete[], moitie: "aut
   const nMaintenus = dossiers.length - nEscalades;
   if (nEscalades < ASSEZ_PAR_ISSUE || nMaintenus < ASSEZ_PAR_ISSUE) {
     throw new Error(`${moitie}: ${nEscalades} escalated / ${nMaintenus} maintained dossier(s): at least `
-      + `${ASSEZ_PAR_ISSUE} of EACH.\n  Below that, a rate here bounds nothing — and the missing side is`
+      + `${ASSEZ_PAR_ISSUE} of EACH.\n  Below that, a rate here bounds nothing, and the missing side is`
       + ` usually the benign look-alikes,\n  which are what the set is for.`);
   }
   const intrus = dossiers.filter((d) => (moitie === "authored") === d.id.includes("~v"));
@@ -141,14 +141,14 @@ export function construireReleve(
       absents: PALIERS.filter((p) => !r.has(p)),
     },
     authored: {
-      provenance: `written by hand in this repository: archetypes of risk and their benign look-alikes — ${PHRASE_PROVENANCE}`,
+      provenance: `written by hand in this repository: archetypes of risk and their benign look-alikes; ${PHRASE_PROVENANCE}`,
       nEscalated: ecrits.filter(estEscalade).length,
       nMaintained: ecrits.filter((d) => !estEscalade(d)).length,
       natures,
       tables: mesurerDossiers(r, ecrits, tables),
     },
     synthetic: {
-      provenance: `seeded variants of the authored dossiers (seed ${GRAINE_PUBLIQUE}, ${VARIANTES_PAR_DOSSIER} per dossier), structure preserved — ${PHRASE_PROVENANCE}`,
+      provenance: `seeded variants of the authored dossiers (seed ${GRAINE_PUBLIQUE}, ${VARIANTES_PAR_DOSSIER} per dossier), structure preserved; ${PHRASE_PROVENANCE}`,
       nEscalated: synthetiques.filter(estEscalade).length,
       nMaintained: synthetiques.filter((d) => !estEscalade(d)).length,
       tables: mesurerDossiers(r, synthetiques, tables),
@@ -200,23 +200,23 @@ function tableMd(tables: Record<string, TableDUnFacteur>, quoi: "rappel" | "faux
 
 export function rapportMd(m: MesurePublique, recommandee: CellulePlacee | null): string {
   const l: string[] = [
-    `# Cascade Scoring — the public measure`,
+    `# Cascade Scoring: the public measure`,
     ``,
     `**Provenance**: ${PHRASE_PROVENANCE}. Dossiers written by this repository (archetypes of`,
     `risk and their benign look-alikes) plus seeded, structure-preserving variants, measured`,
     `APART and never merged. Commit \`${m.commit}\`, ${m.date}. Sealed as \`releve-public.json\`;`,
     `every rate below carries its n and its 95 % Wilson interval, and the FULL threshold grid`,
-    `(${SEUILS.length} steps) lives in the JSON — this page shows ${SEUILS_MONTRES.length} declared columns of it. The`,
-    `record also photographs the declared risk TABLES it was measured under (\`tables\`) — the`,
+    `(${SEUILS.length} steps) lives in the JSON; this page shows ${SEUILS_MONTRES.length} declared columns of it. The`,
+    `record also photographs the declared risk TABLES it was measured under (\`tables\`), the`,
     `loudest assumption of this tool, replaceable by yours: change a table and the scores`,
     `move with it.`,
     ``,
     `Factors measured: ${m.paliers.presents.map((p) => `\`${p}\``).join(", ")}.`
     + (m.paliers.absents.length
-      ? ` **Not in tonight's registry: ${m.paliers.absents.map((p) => `\`${p}\``).join(", ")}** — measured when it ships, absent rather than faked.`
+      ? ` **Not in tonight's registry: ${m.paliers.absents.map((p) => `\`${p}\``).join(", ")}**. Measured when it ships, absent rather than faked.`
       : ` An eighth, learned factor is named ABSENT from day one: it will come or it will not, it will never be guessed.`),
     ``,
-    `## Written dossiers (authored) — ${m.authored.nEscalated} escalated, ${m.authored.nMaintained} maintained`,
+    `## Written dossiers (authored): ${m.authored.nEscalated} escalated, ${m.authored.nMaintained} maintained`,
     ``,
     `The set's value is its benign look-alikes: a cash-heavy neighbourhood bakery looks, from`,
     `afar, like a laundering shopfront. Natures: ${Object.entries(m.authored.natures).map(([k, n]) => `${k} x${n}`).join(", ")}.`,
@@ -225,7 +225,7 @@ export function rapportMd(m: MesurePublique, recommandee: CellulePlacee | null):
     ``, tableMd(m.authored.tables, "rappel"), ``,
     `### False alerts on the maintained look-alikes (every point is review minutes)`,
     ``, tableMd(m.authored.tables, "fauxPositifs"), ``,
-    `## Generated variants (synthetic) — ${m.synthetic.nEscalated} escalated, ${m.synthetic.nMaintained} maintained`,
+    `## Generated variants (synthetic): ${m.synthetic.nEscalated} escalated, ${m.synthetic.nMaintained} maintained`,
     ``,
     `Seeded, declared, never merged with the written set.`,
     ``, `### Recall`, ``, tableMd(m.synthetic.tables, "rappel"), ``,
@@ -235,7 +235,7 @@ export function rapportMd(m: MesurePublique, recommandee: CellulePlacee | null):
     recommandee
       ? `Under a recall LOWER BOUND of ${(ASSUMPTIONS.recallFloor * 100).toFixed(0)} % on the written dossiers, then fewest false`
         + ` alerts, then fewest reviews raised, then the cheaper factor, then the stricter threshold:`
-        + ` \`${recommandee.palier}\` at threshold ${recommandee.seuil.toFixed(2)} — recall ${pc(cellule(recommandee.rappel))},`
+        + ` \`${recommandee.palier}\` at threshold ${recommandee.seuil.toFixed(2)}, recall ${pc(cellule(recommandee.rappel))},`
         + ` false alerts ${pc(cellule(recommandee.faussesAlertes))}. The rule is \`optimise\`'s, imported, not restated.`
       : `No cell holds a recall lower bound of ${(ASSUMPTIONS.recallFloor * 100).toFixed(0)} % on the written dossiers: said, not hidden.`,
     ``,
@@ -256,7 +256,7 @@ export function exigerDroitDEcraser(cheminJson: string, argv: readonly string[])
   if (!existsSync(cheminJson)) return;
   const existant = JSON.parse(readFileSync(cheminJson, "utf8")) as Record<string, unknown>;
   if (scelleIntact(existant) && !argv.includes("--yes-overwrite")) {
-    throw new Error(`releve-public.json exists, sealed and intact — it is the PUBLISHED record.\n`
+    throw new Error(`releve-public.json exists, sealed and intact: it is the PUBLISHED record.\n`
       + `  A published figure does not move because a command was re-run by accident.\n`
       + `  To remeasure and replace it, say so: npm run measure -- --yes-overwrite`);
   }

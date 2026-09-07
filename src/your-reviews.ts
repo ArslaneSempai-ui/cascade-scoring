@@ -63,7 +63,7 @@ function colonnes(noms: readonly string[], requises: readonly string[], optionne
       `Your ${quoi} header carries ${inconnues.length} column(s) this command does not know: `
       + `${apercu(inconnues.map((n) => `"${n}"`), MONTRES)}.\n`
       + `  Accepted: ${requises.join(", ")}`
-      + (optionnelles.length ? ` — then, optionally: ${optionnelles.join(", ")}.` : ".")
+      + (optionnelles.length ? `; then, optionally: ${optionnelles.join(", ")}.` : ".")
       + `\n  Left as they were, unknown columns would be read as something else or dropped in\n`
       + `  silence, and the rates would answer a different question than the one you asked.`);
   }
@@ -102,8 +102,8 @@ export function lireRevues(texte: string): { revues: Revue[]; avertissements: st
     throw new Error(
       `${horsVocabulaire.length} review row(s) carry an outcome outside the vocabulary: ${montre}.\n`
       + `  This tool reads exactly two: "escalated" (risk confirmed: enhanced diligence, exit\n`
-      + `  or filing) and "maintained" (closed without action). Anything else — pending, a\n`
-      + `  typo — has no place in either rate. Map your outcomes to these two, or drop the\n`
+      + `  or filing) and "maintained" (closed without action). Anything else (pending, a\n`
+      + `  typo) has no place in either rate. Map your outcomes to these two, or drop the\n`
       + `  undecided rows.`);
   }
 
@@ -477,7 +477,7 @@ onboarding_channel, relationship_start, turnovers, ratios, and the entity fields
 
 It writes, next to your reviews file and nowhere else:
   <file>-measured.md     the report (no customer, no country, no amount of yours)
-  <file>-measured.json   the sealed record — counts, rates, verdicts by review_id
+  <file>-measured.json   the sealed record: counts, rates, verdicts by review_id
 
 Then: npm run optimise -- --from=<file>-measured.json --recall=0.90
 Nothing about your files leaves this machine.
@@ -499,12 +499,12 @@ Nothing about your files leaves this machine.
   const { mesure, cheminMd, cheminJson, avertissements } = executer(cheminRevues, cheminClients, registre, volume, tables);
   for (const a of avertissements) console.warn(`⚠ ${a}`);
 
-  console.log(`\n${mesure.source.reviews} review(s) — ${mesure.source.escalated} escalated, `
+  console.log(`\n${mesure.source.reviews} review(s): ${mesure.source.escalated} escalated, `
     + `${mesure.source.maintained} maintained, ${mesure.source.sansNationalite} without nationality; `
     + `${Object.keys(mesure.paliers).length} factor(s), ${SEUILS.length} thresholds each.`);
   if (mesure.absents.length) {
     console.log(`  ${mesure.absents.length} contract factor(s) not in the registry: `
-      + `${mesure.absents.join(", ")} — said in the report, not guessed.`);
+      + `${mesure.absents.join(", ")}; said in the report, not guessed.`);
   }
   console.log(`  ${cheminMd}`);
   console.log(`  ${cheminJson}`);

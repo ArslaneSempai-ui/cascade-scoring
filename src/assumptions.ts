@@ -164,7 +164,7 @@ export function tablesAvec(brut: string): Tables {
 /** usd → $ : le seul endroit du dépôt où ce couple est écrit. */
 export function symboleDe(unite: string): string {
   if (unite.startsWith("usd")) return "$";
-  throw new Error(`no display symbol declared for unit "${unite}" — declare it here rather than typing one at the render site.`);
+  throw new Error(`no display symbol declared for unit "${unite}": declare it here rather than typing one at the render site.`);
 }
 
 export function analystHourlyCost(a: Assumptions = ASSUMPTIONS): number {
