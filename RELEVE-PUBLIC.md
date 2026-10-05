@@ -1,4 +1,4 @@
-# Cascade Scoring: the public measure
+# Crusetra Scoring: the public measure
 
 **Provenance**: no real bank customer is public: written and generated, and it says so. Dossiers written by this repository (archetypes of
 risk and their benign look-alikes) plus seeded, structure-preserving variants, measured
