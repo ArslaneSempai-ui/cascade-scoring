@@ -1,4 +1,4 @@
-# Cascade · Scoring
+# Crusetra · Scoring
 
 **Which customer risk factor suffices, at which threshold, measured on your own
 periodic-review outcomes.** Nothing of yours goes up: this tool downloads nothing, your
@@ -11,8 +11,8 @@ threshold over the reviews your analysts already decided, and each factor and th
 is read for recall on the files that were escalated and false-alert rate on the files that
 were retained, with its count and its interval, or not at all.
 
-It is the fourth tool of the Cascade suite. The first,
-[cascade-routing](https://github.com/ArslaneSempai-ui/cascade-routing), measures which
+It is the fourth tool of the Crusetra suite. The first,
+[Crusetra Routing](https://github.com/ArslaneSempai-ui/cascade-routing), measures which
 extraction tier suffices per field. Same method, same seal, same key.
 
 No real customer file is public, so the public record of this tool is entirely written and
@@ -28,7 +28,7 @@ your machine.
 | `npm run measure [-- --yes-overwrite]` | the public measure: every risk factor at every threshold on dossiers we wrote (retained files included) plus declared generated variants, sealed into `releve-public.json` and readable in `RELEVE-PUBLIC.md`: no real customer is public, and the record says so; it refuses to overwrite a sealed one without the flag |
 | `npm run measure:yours -- --customers=<csv> --reviews=<csv> [--volume=N]` | your own periodic reviews, rebuilt into dossiers from your customer attributes: recall on escalated customers and false-alert rate on maintained ones per risk factor and threshold, with n and interval; a sealed record and a report beside your file, never a value of yours |
 | `npm run optimise -- --from=<record> --recall=<min>` | the best trade-off: fewest alerts with the recall lower bound held, or `--review-budget=<N>` for the highest bounded recall under a yearly review budget |
-| `npm run sceller -- <record.json>` | seal a record: the content hash that makes a silently edited measurement fail loudly; the same content hash as cascade-routing |
+| `npm run sceller -- <record.json>` | seal a record: the content hash that makes a silently edited measurement fail loudly; the same content hash as Crusetra Routing |
 | `npm run verify -- <report>` | check that a report was issued by the holder of the suite's public key, `cle-publique.pem`, without asking us |
 | `npm run licences` | regenerate `LICENCES.md`, the licence of every shipped package; `--check` fails the suite when the table drifts |
 <!-- /figures:commandes -->
@@ -54,7 +54,7 @@ recall is quoted, and the report states why.
 
 ## Seals and signatures
 
-Records are sealed (`npm run sceller`) with the same content hash as cascade-routing, and
+Records are sealed (`npm run sceller`) with the same content hash as Crusetra Routing, and
 reports are verified against the same public key, [`cle-publique.pem`](cle-publique.pem),
 with `npm run verify`.
 
@@ -64,6 +64,6 @@ with `npm run verify`.
 
 ## Licence
 
-The same public licence as cascade-routing: non-commercial use without limit of time, a
+The same public licence as Crusetra Routing: non-commercial use without limit of time, a
 thirty-day evaluation on your own records for organisations, a commercial licence for
 production. See [LICENSE](LICENSE) and [LICENCES.md](LICENCES.md).

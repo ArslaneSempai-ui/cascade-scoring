@@ -200,7 +200,7 @@ function tableMd(tables: Record<string, TableDUnFacteur>, quoi: "rappel" | "faux
 
 export function rapportMd(m: MesurePublique, recommandee: CellulePlacee | null): string {
   const l: string[] = [
-    `# Cascade Scoring: the public measure`,
+    `# Crusetra Scoring: the public measure`,
     ``,
     `**Provenance**: ${PHRASE_PROVENANCE}. Dossiers written by this repository (archetypes of`,
     `risk and their benign look-alikes) plus seeded, structure-preserving variants, measured`,
