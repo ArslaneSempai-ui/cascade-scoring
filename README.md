@@ -12,7 +12,7 @@ is read for recall on the files that were escalated and false-alert rate on the 
 were retained, with its count and its interval, or not at all.
 
 It is the fourth tool of the Crusetra suite. The first,
-[Crusetra Routing](https://github.com/ArslaneSempai-ui/cascade-routing), measures which
+[Crusetra Routing](https://github.com/ArslaneSempai-ui/crusetra-routing), measures which
 extraction tier suffices per field. Same method, same seal, same key.
 
 No real customer file is public, so the public record of this tool is entirely written and
