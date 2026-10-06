@@ -19,6 +19,7 @@ import { scelleIntact, empreinteDuReleve } from "./empreinte.ts";
 import { ASSUMPTIONS, UNITS, symboleDe, analystHourlyCost, ligneDHypothese } from "./assumptions.ts";
 import type { MesureRevues, Cellule } from "./your-reviews.ts";
 import type { PalierId } from "./facteur.ts";
+import { lignesEvaluationDe } from "./evaluation.ts";
 
 export type CellulePlacee = Cellule & { palier: PalierId; rang: number };
 
@@ -117,6 +118,7 @@ function decrire(c: CellulePlacee, m: MesureRevues): string[] {
 }
 
 async function principal(): Promise<void> {
+  for (const l of lignesEvaluationDe("scoring")) console.log(l);
   refuserDrapeauxInconnus(["--from", "--recall", "--review-budget"]);
   const arg = (nom: string) => process.argv.find((a) => a.startsWith(`--${nom}=`))?.split("=").slice(1).join("=");
 

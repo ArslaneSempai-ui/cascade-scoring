@@ -30,6 +30,7 @@ import { KINDS, PEPS, PRODUITS, CANAUX, exigerDossier,
 import { TABLES, tablesAvec } from "./assumptions.ts";
 import { empreinteDuReleve } from "./empreinte.ts";
 import { rendreRapport } from "./rapport.ts";
+import { lignesEvaluationDe } from "./evaluation.ts";
 
 export const COLONNES_REVUES = ["review_id", "customer_id", "reviewed_at", "outcome"] as const;
 export const COLONNES_REVUES_OPT = ["rating_before"] as const;
@@ -453,7 +454,7 @@ export function executer(
 }
 
 async function principal(): Promise<void> {
-  /* pas de compteur d'évaluation dans ce squelette : le chef l'ajoutera avec la licence */
+  for (const l of lignesEvaluationDe("scoring")) console.log(l);
   refuserDrapeauxInconnus(["--customers", "--reviews", "--volume", "--tables"]);
   const arg = (nom: string) => process.argv.find((a) => a.startsWith(`--${nom}=`))?.split("=").slice(1).join("=");
   const cheminRevues = arg("reviews");
